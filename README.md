@@ -7,7 +7,7 @@ works with a [`socket.io`](http://socket.io) server.
 
 [![NPM](https://nodei.co/npm/rtc-signaller-socket.io.png)](https://nodei.co/npm/rtc-signaller-socket.io/)
 
-[![Build Status](https://img.shields.io/travis/rtc-io/rtc-signaller-socket.io.svg?branch=master)](https://travis-ci.org/rtc-io/rtc-signaller-socket.io) 
+[![unstable](https://img.shields.io/badge/stability-unstable-yellowgreen.svg)](https://github.com/dominictarr/stability#unstable) [![Build Status](https://img.shields.io/travis/rtc-io/rtc-signaller-socket.io.svg?branch=master)](https://travis-ci.org/rtc-io/rtc-signaller-socket.io) 
 
 ## Example Usage
 
