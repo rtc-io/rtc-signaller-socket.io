@@ -1,5 +1,32 @@
 var reTrailingSlash = /\/$/;
 
+/**
+  # rtc-signaller-socket.io
+
+  This is a signaller that can be used as a drop-in replacement for
+  [`rtc-signaller`](https://github.com/rtc-io/rtc-signaller), that
+  works with a [`socket.io`](http://socket.io) server.
+
+  ## Example Usage
+
+  The following examples show how a client and server can be
+  configured to work with socket.io, using
+  [`rtc-quickconnect`](https://github.com/rtc-io/rtc-quickconnect) on
+  the frontend.
+
+  ### Server
+
+  Run using `node examples/server.js`:
+
+  <<< examples/server.js
+
+  ### Client
+
+  Run using `beefy examples/client.js`:
+
+  <<< examples/client.js
+
+**/
 module.exports = function(server, opts) {
   // create the signaller
   var announceTimer;
