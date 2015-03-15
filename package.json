@@ -4,7 +4,8 @@
   "description": "An rtc-signaller implementation that works with a simple socket.io server implementation",
   "main": "index.js",
   "scripts": {
-    "test": "browserify test/all.js | broth ./.travis/start-$BROWSER.sh | tap-spec"
+    "test": "browserify test/all.js | broth ./.travis/start-$BROWSER.sh | tap-spec",
+    "gendocs": "gendocs > README.md"
   },
   "repository": {
     "type": "git",
