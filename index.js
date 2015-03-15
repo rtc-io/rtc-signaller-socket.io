@@ -25,7 +25,7 @@ module.exports = function(server, opts) {
       signaller('disconnected');
     });
 
-    socket.on('event', signaller._process);
+    socket.on('message', signaller._process);
 
     return signaller;
   }
