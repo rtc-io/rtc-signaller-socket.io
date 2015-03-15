@@ -52,7 +52,7 @@ module.exports = function(server, opts) {
     return announceTimer = setTimeout(signaller._announce, (opts || {}).announceDelay || 10);
   };
 
-  signaller.leave = function() {
+  signaller.leave = signaller.close = function() {
     return socket && socket.disconnect();
   };
 
