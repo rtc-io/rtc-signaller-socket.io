@@ -15,11 +15,9 @@ module.exports = function(server, opts) {
   }
 
   function connect() {
-    console.log('connecting to: ' + server);
     socket = io(server, { forceNew: true });
 
     socket.on('connect', function() {
-      console.log('connected');
       signaller('connected');
     });
 
