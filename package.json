@@ -27,6 +27,8 @@
   "devDependencies": {
     "broth": "^1.1.1",
     "browserify": "^9.0.3",
+    "freeice": "^2.1.2",
+    "rtc-quickconnect": "^4.2.0",
     "rtc-signaller-testrun": "^1.2.2",
     "rtc-switch": "^1.0.0",
     "socket.io": "^1.3.5",
