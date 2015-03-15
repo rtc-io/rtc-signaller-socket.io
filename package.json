@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An rtc-signaller implementation that works with a simple socket.io server implementation",
   "main": "index.js",
+  "stability": "unstable",
   "scripts": {
     "test": "browserify test/all.js | broth ./.travis/start-$BROWSER.sh | tap-spec",
     "gendocs": "gendocs > README.md"
