@@ -10,7 +10,6 @@ module.exports = function() {
 
     socket.on('message', peer.process);
     peer.on('data', function(data) {
-      console.log('OUT <== ' + data);
       socket.send(data);
     });
   });
