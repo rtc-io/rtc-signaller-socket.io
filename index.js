@@ -31,20 +31,23 @@ module.exports = function(server, opts) {
   // create the signaller
   var announceTimer;
   var signaller = require('rtc-signal/signaller')(opts, bufferMessage);
+  var client = (opts || {}).client || (typeof io != 'undefined' && io);
+  var queuedMessages = [];
   var socket;
 
   function bufferMessage(message) {
     if (! socket) {
-      return console.warn('need to buffer message: ' + message);
+      return queuedMessages.push(message);
     }
 
     socket.send(message);
   }
 
-  function connect() {
-    socket = io(server, { forceNew: true });
+  function connect(createSocket) {
+    socket = createSocket(server, { forceNew: true });
 
     socket.on('connect', function() {
+      queuedMessages.splice(0).forEach(bufferMessage);
       signaller('connected');
     });
 
@@ -57,12 +60,29 @@ module.exports = function(server, opts) {
     return signaller;
   }
 
-  function loadClient(callback) {
-    var script = document.createElement('script');
+  function findOrCreateLoader() {
+    var script = document.querySelector('script[src$="/socket.io/socket.io.js"]');
 
-    script.src = server.replace(reTrailingSlash, '') + '/socket.io/socket.io.js';
-    script.onload = callback;
-    document.body.appendChild(script);
+    // if we don't have the script, then create it
+    if (! script) {
+      script = document.createElement('script');
+      script.src = server.replace(reTrailingSlash, '') + '/socket.io/socket.io.js';
+      document.body.appendChild(script);
+    }
+
+    return script;
+  }
+
+  function loadClient(callback) {
+    var script = findOrCreateLoader();
+
+    script.addEventListener('load', function() {
+      if (typeof io == 'undefined') {
+        return callback(new Error('loaded socket.io client script but could not locate io global'));
+      }
+
+      callback(null, client = io);
+    });
   }
 
   signaller.announce = function(data) {
@@ -83,10 +103,17 @@ module.exports = function(server, opts) {
     return socket && socket.disconnect();
   };
 
-  if (typeof io != 'undefined') {
-    return connect();
+  if (client) {
+    return connect(client);
   }
 
-  loadClient(connect);
+  loadClient(function(err, io) {
+    if (err) {
+      return signaller('error', err);
+    }
+
+    connect(io);
+  });
+
   return signaller;
 };
