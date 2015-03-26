@@ -1,4 +1,4 @@
-var socket = io('http://localhost');
+var socket = require('socket.io-client')('http://localhost:3000');
 var quickconnect = require('rtc-quickconnect');
 var signaller = require('..')(socket);
 var freeice = require('freeice');
