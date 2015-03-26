@@ -52,10 +52,7 @@ module.exports = function(socket, opts) {
       signaller('disconnected');
     });
 
-    socket.on('rtc-signal', function(message) {
-      signaller._process(message.data || message);
-    });
-
+    socket.on('rtc-signal', signaller._process);
     return signaller;
   }
 
