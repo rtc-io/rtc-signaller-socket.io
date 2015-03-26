@@ -27,25 +27,21 @@ var reTrailingSlash = /\/$/;
   <<< examples/client.js
 
 **/
-module.exports = function(server, opts) {
+module.exports = function(socket, opts) {
   // create the signaller
   var announceTimer;
   var signaller = require('rtc-signal/signaller')(opts, bufferMessage);
-  var client = (opts || {}).client || (typeof io != 'undefined' && io);
   var queuedMessages = [];
-  var socket;
-
+  
   function bufferMessage(message) {
     if (! socket) {
       return queuedMessages.push(message);
     }
 
-    socket.send(message);
+    socket.emit('rtc-signal', message);
   }
 
-  function connect(createSocket) {
-    socket = createSocket(server, { forceNew: true });
-
+  function init() {
     socket.on('connect', function() {
       queuedMessages.splice(0).forEach(bufferMessage);
       signaller('connected');
@@ -55,34 +51,11 @@ module.exports = function(server, opts) {
       signaller('disconnected');
     });
 
-    socket.on('message', signaller._process);
-
-    return signaller;
-  }
-
-  function findOrCreateLoader() {
-    var script = document.querySelector('script[src$="/socket.io/socket.io.js"]');
-
-    // if we don't have the script, then create it
-    if (! script) {
-      script = document.createElement('script');
-      script.src = server.replace(reTrailingSlash, '') + '/socket.io/socket.io.js';
-      document.body.appendChild(script);
+    socket.on('rtc-signal', function(message) {
+      signaller._process(message.data);
     }
 
-    return script;
-  }
-
-  function loadClient(callback) {
-    var script = findOrCreateLoader();
-
-    script.addEventListener('load', function() {
-      if (typeof io == 'undefined') {
-        return callback(new Error('loaded socket.io client script but could not locate io global'));
-      }
-
-      callback(null, client = io);
-    });
+    return signaller;
   }
 
   signaller.announce = function(data) {
@@ -103,17 +76,5 @@ module.exports = function(server, opts) {
     return socket && socket.disconnect();
   };
 
-  if (client) {
-    return connect(client);
-  }
-
-  loadClient(function(err, io) {
-    if (err) {
-      return signaller('error', err);
-    }
-
-    connect(io);
-  });
-
-  return signaller;
+  return init();
 };

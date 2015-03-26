@@ -1,5 +1,6 @@
+var socket = io('http://localhost');
 var quickconnect = require('rtc-quickconnect');
-var signaller = require('..')('http://localhost:3000');
+var signaller = require('..')(socket);
 var freeice = require('freeice');
 var qc = quickconnect(signaller, {
   room: 'socketio-signalling-demo',
