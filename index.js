@@ -53,7 +53,7 @@ module.exports = function(socket, opts) {
 
     socket.on('rtc-signal', function(message) {
       signaller._process(message.data);
-    }
+    });
 
     return signaller;
   }
