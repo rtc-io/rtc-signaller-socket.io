@@ -1,5 +1,19 @@
+/**
+  Additional message data can be given in the 2nd parameter of the signaller:
+  
+  ```
+  var signaller = require('..')(socket, {
+    socketMessage: {
+      type: 'rtc-signal',
+      channel: 'default'
+    }
+  });
+  ```
+*/
+
+var socket = io('http://localhost');
 var quickconnect = require('rtc-quickconnect');
-var signaller = require('..')('http://localhost:3000');
+var signaller = require('..')(socket);
 var freeice = require('freeice');
 var qc = quickconnect(signaller, {
   room: 'socketio-signalling-demo',
