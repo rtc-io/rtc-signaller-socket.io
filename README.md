@@ -30,9 +30,9 @@ var port = process.env.PORT || 3000;
 io.on('connection', function(socket){
   var peer = board.connect();
 
-  socket.on('message', peer.process);
+  socket.on('rtc-signal', peer.process);
   peer.on('data', function(data) {
-    socket.send(data);
+    socket.emit('rtc-signal', data);
   });
 });
 
@@ -51,8 +51,9 @@ server.listen(port, function(err) {
 Run using `beefy examples/client.js`:
 
 ```js
+var socket = require('socket.io-client')('http://localhost:3000');
 var quickconnect = require('rtc-quickconnect');
-var signaller = require('rtc-signaller-socket.io')('http://localhost:3000');
+var signaller = require('rtc-signaller-socket.io')(socket);
 var freeice = require('freeice');
 var qc = quickconnect(signaller, {
   room: 'socketio-signalling-demo',
