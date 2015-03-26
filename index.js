@@ -34,7 +34,8 @@ module.exports = function(socket, opts) {
   var queuedMessages = [];
   
   function bufferMessage(message) {
-    if (! socket) {
+    var connected = socket && socket.connected;
+    if (connected) {
       return queuedMessages.push(message);
     }
 
