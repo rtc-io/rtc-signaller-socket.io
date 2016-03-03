@@ -1,3 +1,4 @@
+var version = require('./package.json').version;
 var reTrailingSlash = /\/$/;
 
 /**
@@ -32,7 +33,7 @@ module.exports = function(socket, opts) {
   var announceTimer;
   var signaller = require('rtc-signal/signaller')(opts, bufferMessage);
   var queuedMessages = [];
-  
+
   function bufferMessage(message) {
     var connected = socket && socket.connected;
     if (! connected) {
@@ -73,6 +74,8 @@ module.exports = function(socket, opts) {
   signaller.leave = signaller.close = function() {
     return socket && socket.disconnect();
   };
+
+  signaller._update({ agent: 'signaller-socket.io@' + version });
 
   return init();
 };
