@@ -32,14 +32,14 @@ module.exports = function(socket, opts) {
   var announceTimer;
   var signaller = require('rtc-signal/signaller')(opts, bufferMessage);
   var queuedMessages = [];
-  
+
   function bufferMessage(message) {
     var connected = socket && socket.connected;
     if (! connected) {
       return queuedMessages.push(message);
     }
 
-    socket.emit('rtc-signal', message);
+    socket.emit('message', message);
   }
 
   function init() {
@@ -52,7 +52,7 @@ module.exports = function(socket, opts) {
       signaller('disconnected');
     });
 
-    socket.on('rtc-signal', signaller._process);
+    socket.on('message', signaller._process);
     return signaller;
   }
 
