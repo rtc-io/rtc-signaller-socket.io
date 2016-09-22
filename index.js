@@ -72,6 +72,9 @@ module.exports = function(socket, opts) {
   };
 
   signaller.leave = signaller.close = function() {
+    // Apply the default leave behaviour
+    signaller._leave();
+    // Close the socket
     return socket && socket.disconnect();
   };
 
