@@ -52,7 +52,7 @@ module.exports = function(socket, opts) {
       }
     });
 
-    socket.on('reconnected', function() {
+    socket.on('reconnect', function() {
       reconnected = true;
       // signaller('reconnected');
     });
