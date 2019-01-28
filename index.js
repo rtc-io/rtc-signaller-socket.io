@@ -54,7 +54,7 @@ module.exports = function(socket, opts) {
 
     socket.on('reconnected', function() {
       reconnected = true;
-      signaller('reconnected');
+      // signaller('reconnected');
     });
 
     socket.on('disconnect', function() {
