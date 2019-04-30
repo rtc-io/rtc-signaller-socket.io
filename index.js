@@ -50,13 +50,12 @@ module.exports = function(socket, opts) {
         queuedMessages.splice(0).forEach(bufferMessage);
         signaller('connected');
       }
-      /* else {
+      else {
         console.log('pass as it is reconnect');
-      } */
+      }
     });
 
     socket.on('reconnect', function() {
-      // console.log('socket.on reconnect');
       reconnected = true;
       signaller('reconnected');
     });
