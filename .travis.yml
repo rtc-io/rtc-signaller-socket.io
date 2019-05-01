@@ -1,8 +1,8 @@
 sudo: false
 language: node_js
 node_js:
-  - "lts/*"
-  - "stable"
+  - "8"
+  - "10"
 
 env:
   matrix:
