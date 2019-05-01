@@ -33,7 +33,6 @@ module.exports = function(socket, opts) {
   var announceTimer;
   var signaller = require('rtc-signal/signaller')(opts, bufferMessage);
   var queuedMessages = [];
-  var reconnected = false;
 
   function bufferMessage(message) {
     var connected = socket && socket.connected;
@@ -45,18 +44,12 @@ module.exports = function(socket, opts) {
   }
 
   function init() {
-    socket.on('connect', function() {
-      if (!reconnected){
-        queuedMessages.splice(0).forEach(bufferMessage);
-        signaller('connected');
-      }
-      else {
-        console.log('pass as it is reconnect');
-      }
+    socket.once('connect', function() {
+      queuedMessages.splice(0).forEach(bufferMessage);
+      signaller('connected');
     });
 
     socket.on('reconnect', function() {
-      reconnected = true;
       signaller('reconnected');
     });
 
