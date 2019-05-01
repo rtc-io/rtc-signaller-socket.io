@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/rtc-io/rtc-signaller-socket.io",
   "dependencies": {
+    "bufferutil": "4.0.1",
     "rtc-signal": "^1.3.0"
   },
   "devDependencies": {
