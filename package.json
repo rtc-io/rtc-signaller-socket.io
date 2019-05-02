@@ -30,7 +30,7 @@
     "broth": "^2.3.0",
     "bufferutil": "^4.0.1",
     "utf-8-validate": "^5.0.2",
-    "browserify": "^9.0.3",
+    "browserify": "^16.2.3",
     "freeice": "^2.1.2",
     "rtc-quickconnect": "^7.2.0",
     "rtc-signaller-testrun": "^1.2.2",
