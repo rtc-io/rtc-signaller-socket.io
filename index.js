@@ -44,9 +44,13 @@ module.exports = function(socket, opts) {
   }
 
   function init() {
-    socket.on('connect', function() {
+    socket.once('connect', function() {
       queuedMessages.splice(0).forEach(bufferMessage);
       signaller('connected');
+    });
+
+    socket.on('reconnect', function() {
+      signaller('reconnected');
     });
 
     socket.on('disconnect', function() {
